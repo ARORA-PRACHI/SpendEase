@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const userModel = require('../models/userModel');
 const { error, success } = require('../utils/handler');
 
@@ -18,18 +20,26 @@ const loginController = async (req, res) => {
         }
 
         // Validate password
+        const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
             return res.status(400).send(error(400, "Invalid email or password!"));
         }
 
+        // Generate JWT token
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" } // Token expiration time
+        );
 
         // console.log("Generated Token:", token);
 
         // Send success response as an array
-        
+
         return res.status(200).send({
             statusCode: 200,
-            message: "Login successful!",  // Success message            
+            message: "Login successful!",  // Success message
+            token: token,                  // JWT token
             user: {                        // User info
                 id: user._id,
                 username: user.username,
@@ -57,12 +67,15 @@ const signupContorller = async (req, res) => {
             return res.status(400).send(error(400, "User already exists!"));
         }
 
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create a new user
         const newUser = await userModel.create({
             username,
             email,
-            password
+            password: hashedPassword,
         });
 
         return res.status(201).send(success(201, "User created successfully!"));
