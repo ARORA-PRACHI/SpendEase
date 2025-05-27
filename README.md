@@ -3,10 +3,6 @@
 </h1>
 
 <p align="center">
-  <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fexpense-tracking&psig=AOvVaw1LAsDXFa5UqR4M5mLnc1QY&ust=1748405556486000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMiamLbkwo0DFQAAAAAdAAAAABAL">
-</p>
-
-<p align="center">
   SpendEase is a full-stack personal finance management platform that helps users track income, expenses, and visualize spending habits. <br/>
   <strong>Built using:</strong> React, Vite, Tailwind CSS, Node.js, Express, and MySQL.
 </p>
